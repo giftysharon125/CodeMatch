@@ -7,24 +7,6 @@
 
 A cute, modern, and highly interactive **developer-themed memory card game** built with pure HTML5, CSS3 3D transforms, and Vanilla JavaScript. Test your memory, pair up adorable tech mascots, and beat your high scores!
 
----
-
-## ✨ Features
-
-- 🧸 **18 Custom Developer Mascots**: Pixel-perfect scalable SVGs including *JavaScript Cat, Python Snake, Java Coffee, React Robot, Node.js Character, Docker Whale, GitHub Octopus, AI Robot, Coding Laptop, Firefox Fox, Rust Ferris Crab, Go Gopher, HTML5 Flame, CSS3 Palette, TypeScript Shield, Swift Bird, Git Branch, and Linux Penguin*.
-- 🎮 **3 Dynamic Difficulty Levels**:
-  - **Easy (4×4)** — 8 pairs
-  - **Medium (5×4)** — 10 pairs
-  - **Hard (6×6)** — 18 pairs
-- 🃏 **Smooth 3D Card Flip**: Realistic 3D card flips with `perspective` and `preserve-3d`, match pulse glows, and error shake wiggles.
-- 🔊 **Zero-Dependency Sound Engine**: Built-in Web Audio API synthesizer for instant flip pops, match chimes, error buzzes, and victory fanfares (with a persistent Sound On/Off toggle).
-- 🌙 **Light / Dark Mode**: Toggle between soft pastel light mode and a terminal cyber dark mode. Automatically saved in `localStorage`.
-- 🏆 **High Scores Leaderboard**: Persistent local storage tracking best score, fewest moves, and fastest completion time per difficulty.
-- 🎉 **Victory Modal & Confetti**: Animated celebration modal with dynamic star ratings (⭐ to ⭐⭐⭐) and canvas particle confetti bursts.
-- 🧩 **Polish & Feedback**: "3... 2... 1... GO!" countdown, live mascot reaction bar, progress percentage tracker, and restart safety prompts.
-- 📱 **Fully Responsive & Accessible**: Mobile-touch optimized, zero horizontal scrolling, and keyboard navigable (`Tab`, `Space`, `Enter`, `T`, `M`, `Esc`).
-
----
 
 ## 📁 Project Structure
 
@@ -82,6 +64,3 @@ Then open `http://localhost:8080` in your web browser.
 
 ---
 
-## 📄 License
-
-This project is licensed under the [MIT License](LICENSE) — feel free to use, modify, and showcase it in your portfolio!
