@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code Match 💻 Mascot Tech Memory Game</title>
+  <meta name="description" content="A cute, highly interactive tech mascot memory card matching game built with HTML, CSS, and Vanilla JavaScript.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Floating Decorative Background Elements -->
+  <div class="bg-decorations" aria-hidden="true">
+    <div class="floating-blob blob-1"></div>
+    <div class="floating-blob blob-2"></div>
+    <div class="floating-blob blob-3"></div>
+    <div class="code-particles" id="code-particles"></div>
+  </div>
+
+  <div class="app-container">
+
+    <!-- Header Section -->
+    <header class="game-header">
+      <div class="logo-container" id="logo-home-btn" role="button" tabindex="0" title="Code Match Home">
+        <div class="logo-icon-wrapper">
+          <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="3" width="20" height="14" rx="3" ry="3"></rect>
+            <line x1="8" y1="21" x2="16" y2="21"></line>
+            <line x1="12" y1="17" x2="12" y2="21"></line>
+            <polyline points="7 8 10 11 7 14"></polyline>
+            <line x1="13" y1="14" x2="17" y2="14"></line>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <h1 class="logo-title">CODE MATCH</h1>
+          <span class="logo-subtitle">Match the tech. Beat your score!</span>
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <button id="theme-toggle-btn" class="icon-btn" aria-label="Toggle Light/Dark Theme" title="Toggle Theme (T)">
+          <span class="icon-theme-light">☀️</span>
+          <span class="icon-theme-dark">🌙</span>
+        </button>
+        <button id="sound-toggle-btn" class="icon-btn" aria-label="Toggle Sound Effects" title="Toggle Sound (M)">
+          <span class="icon-sound-on">🔊</span>
+          <span class="icon-sound-off">🔇</span>
+        </button>
+        <button id="high-scores-btn" class="icon-btn" aria-label="View High Scores" title="High Scores">
+          🏆
+        </button>
+        <button id="how-to-play-btn" class="icon-btn" aria-label="How to Play Instructions" title="How to Play">
+          ❓
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="game-main">
+
+      <!-- MAIN MENU VIEW -->
+      <section id="main-menu-view" class="menu-card glass-panel">
+        <div class="menu-hero">
+          <div class="mascot-carousel">
+            <span class="carousel-mascot m-js">🐱</span>
+            <span class="carousel-mascot m-py">🐍</span>
+            <span class="carousel-mascot m-react">⚛️</span>
+            <span class="carousel-mascot m-docker">🐳</span>
+            <span class="carousel-mascot m-fox">🦊</span>
+            <span class="carousel-mascot m-rust">🦀</span>
+          </div>
+          <h2 class="hero-title">Ready for a Memory Challenge?</h2>
+          <p class="hero-desc">Flip cards, pair up adorable developer mascots, and test your speed and memory skills!</p>
+        </div>
+
+        <div class="difficulty-section">
+          <label class="difficulty-label">Select Difficulty:</label>
+          <div class="difficulty-selector">
+            <button class="diff-btn" data-diff="easy">
+              <span class="diff-title">Easy</span>
+              <span class="diff-grid">4 × 4</span>
+              <span class="diff-pairs">8 Pairs</span>
+            </button>
+            <button class="diff-btn active" data-diff="medium">
+              <span class="diff-title">Medium</span>
+              <span class="diff-grid">5 × 4</span>
+              <span class="diff-pairs">10 Pairs</span>
+            </button>
+            <button class="diff-btn" data-diff="hard">
+              <span class="diff-title">Hard</span>
+              <span class="diff-grid">6 × 6</span>
+              <span class="diff-pairs">18 Pairs</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="menu-actions">
+          <button id="start-game-btn" class="btn btn-primary btn-lg">
+            <span class="btn-icon">🎮</span> Start Game
+          </button>
+          <div class="menu-secondary-row">
+            <button id="menu-scores-btn" class="btn btn-secondary">
+              🏆 High Scores
+            </button>
+            <button id="menu-rules-btn" class="btn btn-secondary">
+              ❓ How to Play
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- GAME SCREEN VIEW -->
+      <section id="game-screen-view" class="game-screen glass-panel hidden">
+        
+        <!-- Stats HUD -->
+        <div class="game-hud">
+          <div class="hud-card hud-moves">
+            <span class="hud-icon">👣</span>
+            <div class="hud-details">
+              <span class="hud-label">Moves</span>
+              <span id="moves-count" class="hud-value">0</span>
+            </div>
+          </div>
+
+          <div class="hud-card hud-pairs">
+            <span class="hud-icon">🃏</span>
+            <div class="hud-details">
+              <span class="hud-label">Pairs</span>
+              <span id="pairs-count" class="hud-value">0 / 10</span>
+            </div>
+          </div>
+
+          <div class="hud-card hud-timer">
+            <span class="hud-icon">⏱️</span>
+            <div class="hud-details">
+              <span class="hud-label">Time</span>
+              <span id="timer-count" class="hud-value">00:00</span>
+            </div>
+          </div>
+
+          <div class="hud-card hud-score">
+            <span class="hud-icon">⭐</span>
+            <div class="hud-details">
+              <span class="hud-label">Score</span>
+              <span id="score-count" class="hud-value">0</span>
+            </div>
+          </div>
+
+          <div class="hud-card hud-best">
+            <span class="hud-icon">🏆</span>
+            <div class="hud-details">
+              <span class="hud-label">Best Score</span>
+              <span id="best-score-count" class="hud-value">--</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar-wrapper">
+          <div class="progress-bar-track">
+            <div id="progress-fill" class="progress-bar-fill" style="width: 0%;"></div>
+          </div>
+          <span id="progress-text" class="progress-text">0% Completed</span>
+        </div>
+
+        <!-- Mascot Reaction Banner -->
+        <div id="reaction-bar" class="mascot-reaction-bar">
+          <div id="reaction-avatar" class="reaction-avatar-box">🤖</div>
+          <p id="reaction-speech" class="reaction-speech-text">Welcome! Tap any two cards to find matching tech mascots!</p>
+        </div>
+
+        <!-- Game Board Container -->
+        <div class="board-wrapper">
+          <div id="game-board" class="game-board grid-5x4">
+            <!-- Cards generated dynamically via JavaScript -->
+          </div>
+        </div>
+
+        <!-- Game Footer Controls -->
+        <div class="game-bottom-controls">
+          <button id="restart-game-btn" class="btn btn-secondary">
+            🔄 Restart Game
+          </button>
+          <button id="quit-game-btn" class="btn btn-outline">
+            🏠 Main Menu
+          </button>
+        </div>
+
+      </section>
+    </main>
+
+  </div>
+
+  <!-- COUNTDOWN OVERLAY MODAL -->
+  <div id="countdown-modal" class="modal-overlay hidden">
+    <div class="countdown-circle">
+      <span id="countdown-number">3</span>
+    </div>
+  </div>
+
+  <!-- WIN OVERLAY MODAL -->
+  <div id="win-modal" class="modal-overlay hidden">
+    <div class="modal-card win-card glass-panel">
+      <canvas id="confetti-canvas" class="confetti-canvas"></canvas>
+      
+      <div class="win-header">
+        <div class="win-trophy-glow">🎉</div>
+        <h2 class="win-title">Amazing! You Matched Them All!</h2>
+        <p class="win-subtitle">You have mastered the technology mascots!</p>
+      </div>
+
+      <div id="win-stars" class="star-rating">
+        <span class="star star-filled">⭐</span>
+        <span class="star star-filled">⭐</span>
+        <span class="star star-filled">⭐</span>
+      </div>
+
+      <div class="win-stats-grid">
+        <div class="win-stat-item">
+          <span class="stat-label">Final Score</span>
+          <span id="win-score" class="stat-val highlight-val">1250</span>
+        </div>
+        <div class="win-stat-item">
+          <span class="stat-label">Total Moves</span>
+          <span id="win-moves" class="stat-val">14</span>
+        </div>
+        <div class="win-stat-item">
+          <span class="stat-label">Time Taken</span>
+          <span id="win-time" class="stat-val">00:42</span>
+        </div>
+        <div class="win-stat-item">
+          <span class="stat-label">Best Record</span>
+          <span id="win-best" class="stat-val">1250</span>
+        </div>
+      </div>
+
+      <div id="win-record-badge" class="win-record-badge hidden">
+        ✨ 🏆 NEW HIGH SCORE RECORD! 🏆 ✨
+      </div>
+
+      <div class="win-actions">
+        <button id="win-play-again-btn" class="btn btn-primary btn-lg">
+          Play Again 🔄
+        </button>
+        <button id="win-main-menu-btn" class="btn btn-secondary">
+          Main Menu 🏠
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HIGH SCORES MODAL -->
+  <div id="scores-modal" class="modal-overlay hidden">
+    <div class="modal-card glass-panel">
+      <header class="modal-header">
+        <h2>🏆 High Scores Leaderboard</h2>
+        <button id="close-scores-btn" class="close-btn" aria-label="Close modal">×</button>
+      </header>
+      
+      <div class="scores-tabs">
+        <button class="tab-btn active" data-tab="easy">Easy (4×4)</button>
+        <button class="tab-btn" data-tab="medium">Medium (5×4)</button>
+        <button class="tab-btn" data-tab="hard">Hard (6×6)</button>
+      </div>
+
+      <div id="scores-content" class="scores-body">
+        <!-- High scores list generated via script -->
+      </div>
+
+      <footer class="modal-footer">
+        <button id="clear-scores-btn" class="btn btn-danger-outline">
+          🗑️ Clear High Scores
+        </button>
+      </footer>
+    </div>
+  </div>
+
+  <!-- HOW TO PLAY MODAL -->
+  <div id="rules-modal" class="modal-overlay hidden">
+    <div class="modal-card glass-panel">
+      <header class="modal-header">
+        <h2>❓ How to Play</h2>
+        <button id="close-rules-btn" class="close-btn" aria-label="Close modal">×</button>
+      </header>
+      
+      <div class="rules-body">
+        <div class="rule-item">
+          <div class="rule-icon">🃏</div>
+          <div class="rule-text">
+            <strong>Flip & Uncover</strong>
+            <p>Click or tap any two cards on the board to flip them and reveal cute tech mascots.</p>
+          </div>
+        </div>
+
+        <div class="rule-item">
+          <div class="rule-icon">✨</div>
+          <div class="rule-text">
+            <strong>Match the Pairs</strong>
+            <p>If the mascots match, they remain open and light up! If not, they flip back after a brief pause.</p>
+          </div>
+        </div>
+
+        <div class="rule-item">
+          <div class="rule-icon">⚡</div>
+          <div class="rule-text">
+            <strong>Beat Your Score</strong>
+            <p>Earn higher scores by completing the game in fewer moves and faster completion times!</p>
+          </div>
+        </div>
+
+        <div class="rule-item">
+          <div class="rule-icon">🏆</div>
+          <div class="rule-text">
+            <strong>Master All Levels</strong>
+            <p>Challenge yourself across <strong>Easy (4×4)</strong>, <strong>Medium (5×4)</strong>, and <strong>Hard (6×6)</strong> grids!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESET / RESTART CONFIRMATION MODAL -->
+  <div id="reset-modal" class="modal-overlay hidden">
+    <div class="modal-card confirm-card glass-panel">
+      <div class="confirm-icon">⚠️</div>
+      <h2>Restart Current Game?</h2>
+      <p>Your current game progress will be lost. Are you sure you want to restart?</p>
+      <div class="confirm-actions">
+        <button id="confirm-restart-btn" class="btn btn-danger">Yes, Restart 🔄</button>
+        <button id="cancel-restart-btn" class="btn btn-secondary">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main JavaScript File -->
+  <script src="script.js"></script>
+</body>
+</html>
